@@ -152,7 +152,7 @@ const CarTable = () => {
               <td>{car.car_color}</td>
               <td>{car.car_model_year}</td>
               <td>{car.price}</td>
-              <td>{car.availability.toString(car.availability)}</td>
+              <td>{car.availability?.toString(car.availability)}</td>
               <td>
                 <select
                   onChange={(e) => {
