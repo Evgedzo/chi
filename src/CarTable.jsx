@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import "./index.css"
 
 const CarTable = () => {
   const [cars, setCars] = useState([]);
@@ -70,24 +69,18 @@ const CarTable = () => {
   };
 
   const saveEditModalForm = (event) => {
-    event.preventDefault(); 
-    // Find the index of the edited car in the cars array
+    event.preventDefault();
     const editedCarIndex = cars.findIndex((car) => car.car_vin === editCarData.car_vin);
-    
-    // Create a copy of the cars array
     const updatedCars = [...cars];
-    
-    // Update the car data at the specified index
     updatedCars[editedCarIndex] = {
       ...updatedCars[editedCarIndex],
       car_color: editCarData.car_color,
       price: editCarData.price,
       availability: editCarData.availability,
     };
-    // Update the state with the new cars array
     setCars(updatedCars);
-    // Clos1e the modal
     setIsEditModalOpen(false);
+    localStorage.setItem('cars', JSON.stringify(updatedCars)); // Update local storage
   };
 
   // Open Delete Modal
@@ -100,11 +93,10 @@ const CarTable = () => {
   const confirmDelete = () => {
     const deleteCarIndex = cars.findIndex((car) => car.car_vin === deleteCarData.car_vin);
     const updatedCars = [...cars];
-    updatedCars.splice(deleteCarIndex,1)
-    // Update the state with the new cars array
+    updatedCars.splice(deleteCarIndex, 1);
     setCars(updatedCars);
-    
     setIsDeleteModalOpen(false);
+    localStorage.setItem('cars', JSON.stringify(updatedCars)); // Update local storage
   };
 
   // Open Add Modal
@@ -119,15 +111,10 @@ const CarTable = () => {
 
   // Save Add Modal Form
   const saveAddModalForm = () => {
-
-    const updatedCars = [...cars];
-    
-    // Update the car data at the specified index
-    updatedCars.unshift(newCarData)
-    console.log(newCarData)
-    // Update the state with the new cars array
+    const updatedCars = [newCarData, ...cars];
     setCars(updatedCars);
     setIsAddModalOpen(false);
+    localStorage.setItem('cars', JSON.stringify(updatedCars)); // Update local storage
   };
 
   const pageNumber = [];
@@ -165,7 +152,7 @@ const CarTable = () => {
               <td>{car.car_color}</td>
               <td>{car.car_model_year}</td>
               <td>{car.price}</td>
-              <td>{car.availability.toString()}</td>
+              <td>{car.availability.toString(car.availability)}</td>
               <td>
                 <select
                   onChange={(e) => {
@@ -183,7 +170,7 @@ const CarTable = () => {
                       setIsDeleteModalOpen(false)
                       setIsAddModalOpen(false)
                     }
-  
+
                   }}
                 >
                   <option value="default"></option>
